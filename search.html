@@ -29,7 +29,7 @@
   <body>
     <labe>Type:</labe>
     <input id="type" />
-    <button onclick="search()">Search</button>
+    <button onclick="search()">Search</button> <!-- erroring here-->
     <br />
     <table>
         <thead>
@@ -45,13 +45,30 @@
     </table>
 
     <script>
-       let ducks = [
-        { id: 1, type: "Mallard" },
-        { id: 2, type: "Redhead" },
-        { id: 3, type: "Decoy" },
-      ];
+       let ducks = [];
 
-      async function search() {    
+      async function getAll() {
+        let host = "http://localhost:8080";
+        try {
+          let response = await fetch(host + "/ducks"); //erroring here
+          if(response.ok){
+            let ducks = await response.json();
+            return ducks;
+          }else{
+            console.error('Http Error: '+ response.status); //erroring here
+            return [];
+          }
+        } catch (error){
+          console.error('fetch error: ', error);
+          return[];
+        }
+      }
+
+
+      async function search() {
+        if(ducks.length == 0){
+          ducks = await getAll();//erroring here
+        }    
 
         let duckType = document.getElementById("type").value;
         let table = document.getElementById("result");
