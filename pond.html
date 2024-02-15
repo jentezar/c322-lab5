@@ -22,6 +22,8 @@
     }
 </style>
 </head>
+<body>
+    <div id="duckPond"></div>
 <script>
     async function fetchDucks() {
         try {
@@ -31,7 +33,7 @@
             }
             const ducks = await response.json();
             const duckPond = document.getElementById('duckPond');
-            duckPond.innerHTML = '';
+            duckPond.innerHTML = "";
 
             ducks.forEach(duck => {
                 const duckCard = `
